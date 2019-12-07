@@ -35,9 +35,10 @@ with open('E:/github/SI-561-Project/test.csv', 'r', encoding='UTF-8') as f:
 # print(c2)
 
 vectorizer = TfidfVectorizer(analyzer = "word", stop_words = 'english', preprocessor = None, encoding='utf-8', ngram_range=(1,3), sublinear_tf = True)
+# vectorizer = TfidfVectorizer(analyzer = "word", preprocessor = None, encoding='utf-8', ngram_range=(1,3), sublinear_tf = True)
 documentsVectors = vectorizer.fit_transform(trainDocuments+testDocuments)
 size1 = len(trainDocuments)
-clf = RandomForestClassifier()
+clf = RandomForestClassifier(n_estimators=100, criterion='entropy',oob_score=True, class_weight=None)
 
 clf.fit(documentsVectors[0:size1],trainLabels[0:size1])
 
@@ -46,6 +47,6 @@ count = 0
 for ans, truth in zip(prediction, testLabels):
     if ans == truth:
         count += 1
-    if ans != '5':
-        print(ans)
+    # if ans != '5':
+        # print(ans)
 print(count/len(testLabels))

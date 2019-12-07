@@ -1,15 +1,14 @@
 import nltk
 import random
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.linear_model import SGDClassifier
-# from sklearn.model_selection import GridSearchCV
+
 from sklearn.ensemble import RandomForestClassifier 
 from sklearn import svm
 import re
 import csv
 import os
 import pickle
+from nltk.corpus import stopwords
 
 
 EMBED_FILE = 'E:/github/SI-561-Project/glove.6B.300d.txt'
@@ -41,16 +40,21 @@ with open('E:/github/SI-561-Project/train.csv', 'r', encoding='UTF-8') as f:
     csvreader = csv.reader(f)
     headers = next(f)
     for line in csvreader:
-        trainDocuments.append(line[4])
+        words = line[4].split()
+        words = [word for word in words if word not in stopwords.words('english')]    
+        trainDocuments.append(words)
         trainLabels.append(line[0])
         # trainLabels.append(int(line[0])>4)
-        
+
+
 testDocuments = []
 testLabels = []
 with open('E:/github/SI-561-Project/test.csv', 'r', encoding='UTF-8') as f:
     csvreader = csv.reader(f)
     for line in csvreader:
-        testDocuments.append(line[4])
+        words = line[4].split()
+        words = [word for word in words if word not in stopwords.words('english')]  
+        testDocuments.append(words)
         testLabels.append(line[0])
 
 
@@ -75,6 +79,6 @@ count = 0
 for ans, truth in zip(prediction, testLabels):
     if ans == truth:
         count += 1
-    if ans != '5':
-        print(ans)
+    # if ans != '5':
+        # print(ans)
 print(count/len(testLabels))

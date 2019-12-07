@@ -9,6 +9,7 @@ import re
 import csv
 import os
 import pickle
+from nltk.corpus import stopwords
 
 EMBED_FILE = 'E:/github/SI-561-Project/glove.6B.300d.txt'
 EMBEDDING_DIM = 300
@@ -38,7 +39,9 @@ with open('E:/github/SI-561-Project/train.csv', 'r', encoding='UTF-8') as f:
     csvreader = csv.reader(f)
     headers = next(f)
     for line in csvreader:
-        trainDocuments.append(line[4].split())
+        words = line[4].split()
+        # words = [word for word in words if word not in stopwords.words('english')]    
+        trainDocuments.append(words)
         trainLabels.append(line[0])
         # trainLabels.append(int(line[0])>4)
         
@@ -48,7 +51,9 @@ c2 = 0
 with open('E:/github/SI-561-Project/test.csv', 'r', encoding='UTF-8') as f:
     csvreader = csv.reader(f)
     for line in csvreader:
-        testDocuments.append(line[4].split())
+        words = line[4].split()
+        words = [word for word in words if word not in stopwords.words('english')]  
+        testDocuments.append(words)
         testLabels.append(line[0])
         # testLabels.append(int(line[0])>4)
         # if int(line[0])<4: 
@@ -75,7 +80,7 @@ for sentence in sentences:
     embeddings.append(sum/len(sentence))
 
 
-clf = svm.LinearSVC(C = 2.0)
+clf = svm.LinearSVC(C = 1.0)
 clf.fit(embeddings[0:size1],trainLabels[0:size1])
 
 prediction = clf.predict(embeddings[size1:])

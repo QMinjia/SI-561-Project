@@ -36,7 +36,7 @@ with open('E:/github/SI-561-Project/test.csv', 'r', encoding='UTF-8') as f:
 vectorizer = TfidfVectorizer(analyzer = "word", stop_words = 'english', preprocessor = None, encoding='utf-8', ngram_range=(1,2), sublinear_tf = True)
 documentsVectors = vectorizer.fit_transform(trainDocuments+testDocuments)
 size1 = len(trainDocuments)
-clf = svm.LinearSVC(C = 1.0)
+clf = svm.LinearSVC(C = 1.5)
 clf.fit(documentsVectors[0:size1],trainLabels[0:size1])
 
 prediction = clf.predict(documentsVectors[size1:])
