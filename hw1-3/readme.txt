@@ -1,0 +1,3 @@
+For the words whose frequency are lower than 3, I regard it as "UNKA", and I regard the "UNKA" as a normal word in the training and prediction.
+
+The accuracy of the one without smoothing is 0.9372685325724. After applying the Knerser-Ney Smoothing to the emission probabilities, the accuracy decreases a little bit to 0.9368131868131868. I also try to apply the Knerser-Ney Smoothing to the transition probabilities, the accuracy decreases to 0.9371546961325967. If I apply the smoothing on both transition and emission probabilities, the performance gets worse. So in this case, I choose to upload the model without smoothing.
